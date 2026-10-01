@@ -1,8 +1,224 @@
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B060BCCRVP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StreamApps — Automate Your Live Streaming</title>
+  <meta name="description" content="StreamApps adalah platform live streaming automation untuk mengelola channel, playlist, jadwal, media, dan broadcast dari satu dashboard." />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root{
+      --bg:#060913;--panel:#0c1220;--panel2:#10182a;--line:rgba(255,255,255,.09);
+      --text:#f8fafc;--muted:#94a3b8;--blue:#4f7cff;--cyan:#22d3ee;--violet:#8b5cf6;
+      --green:#22c55e;--shadow:0 25px 80px rgba(0,0,0,.45)
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at 15% 10%,rgba(79,124,255,.16),transparent 28%),
+      radial-gradient(circle at 85% 20%,rgba(139,92,246,.13),transparent 28%),var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1160px,92%);margin:auto}
+    .nav{height:78px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-.04em;font-size:21px}
+    .brand-mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 10px 35px rgba(79,124,255,.35)}
+    .brand-mark i{width:13px;height:13px;border-radius:50%;background:white;box-shadow:0 0 20px white}
+    .navlinks{display:flex;gap:28px;color:#aab6ca;font-size:13px;font-weight:700}
+    .navlinks a:hover{color:#fff}
+    .nav-actions{display:flex;gap:10px;align-items:center}
+    .btn{border:1px solid var(--line);padding:11px 17px;border-radius:12px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;gap:8px;transition:.25s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.2)}
+    .btn-ghost{background:rgba(255,255,255,.03)}
+    .btn-primary{background:linear-gradient(135deg,#4f7cff,#7658f6);border:0;box-shadow:0 12px 35px rgba(79,124,255,.25)}
+    .hero{text-align:center;padding:78px 0 35px;position:relative}
+    .orb{position:absolute;left:50%;top:30px;transform:translateX(-50%);width:620px;height:300px;background:radial-gradient(ellipse,rgba(79,124,255,.18),transparent 65%);filter:blur(15px);pointer-events:none}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(79,124,255,.25);background:rgba(79,124,255,.08);padding:7px 12px;border-radius:999px;color:#9eb5ff;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+    .pulse{width:7px;height:7px;background:#34d399;border-radius:50%;box-shadow:0 0 12px #34d399}
+    h1{font-size:clamp(44px,7vw,78px);line-height:.98;letter-spacing:-.065em;margin:24px auto 22px;max-width:920px}
+    .gradient{background:linear-gradient(100deg,#fff 15%,#9cb4ff 48%,#b89aff 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{max-width:680px;margin:auto;color:#9aa9bd;font-size:17px}
+    .hero-cta{margin-top:31px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+    .btn-xl{padding:15px 22px;border-radius:14px}
+    .trust{margin:28px 0 50px;color:#65738a;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    .dashboard-wrap{position:relative}
+    .dashboard{border:1px solid rgba(255,255,255,.11);background:rgba(9,14,25,.88);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;text-align:left;backdrop-filter:blur(20px)}
+    .windowbar{height:48px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 15px;gap:7px}
+    .dot{width:8px;height:8px;border-radius:50%;background:#334155}.window-title{margin-left:8px;font-size:10px;color:#66758c;font-weight:800}
+    .dash-body{display:grid;grid-template-columns:175px 1fr;min-height:410px}
+    .sidebar{border-right:1px solid var(--line);padding:18px 12px}
+    .side-logo{font-weight:900;font-size:12px;margin:2px 8px 22px;color:#dbe5f6}
+    .menu{display:flex;gap:10px;align-items:center;padding:10px 11px;color:#738198;border-radius:9px;font-size:10px;font-weight:800;margin:3px 0}
+    .menu.active{background:rgba(79,124,255,.13);color:#9eb5ff}
+    .dash-content{padding:20px}
+    .dash-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .dash-title{font-size:17px;font-weight:900}.status{font-size:9px;color:#34d399;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.18);padding:6px 9px;border-radius:8px;font-weight:900}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .metric,.table,.activity{border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:13px}
+    .metric{padding:13px}.metric small{font-size:8px;color:#64748b;font-weight:900;letter-spacing:.08em}.metric strong{display:block;font-size:19px;margin-top:5px}
+    .bar{height:4px;background:#182235;border-radius:9px;margin-top:10px;overflow:hidden}.bar span{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+    .lower{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-top:10px}
+    .table{padding:14px}.table-head{font-size:10px;font-weight:900;margin-bottom:11px;color:#dce6f5}.row{display:grid;grid-template-columns:1.5fr 1fr .7fr;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.055);font-size:9px;color:#8492a8}.row b{color:#cbd5e1}.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#22c55e;margin-right:6px}
+    .activity{padding:14px}.activity h4{font-size:10px;margin-bottom:12px}.log{font:9px ui-monospace,monospace;color:#66758c;margin:8px 0}.log em{color:#34d399;font-style:normal}
+    section{padding:90px 0}.section-head{text-align:center;max-width:700px;margin:0 auto 42px}.kicker{font-size:10px;color:#7c9cff;font-weight:900;letter-spacing:.18em;text-transform:uppercase}.section-head h2{font-size:clamp(30px,4vw,46px);letter-spacing:-.045em;margin:9px 0 13px}.section-head p{color:var(--muted)}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+    .feature{padding:25px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015));transition:.25s}
+    .feature:hover{transform:translateY(-5px);border-color:rgba(124,156,255,.28);box-shadow:0 20px 50px rgba(0,0,0,.22)}
+    .icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(79,124,255,.11);color:#8da8ff;margin-bottom:18px}.feature h3{font-size:16px;margin-bottom:8px}.feature p{color:#7f8da2;font-size:13px}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:center}.mock-card{border:1px solid var(--line);background:#0a101d;border-radius:24px;padding:20px;box-shadow:var(--shadow)}
+    .check{display:flex;gap:10px;margin:15px 0;color:#aebbd0;font-size:13px}.check i{color:#34d399;flex:none}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.step{padding:24px;border:1px solid var(--line);border-radius:18px}.num{font-size:12px;color:#7c9cff;font-weight:900}.step h3{margin:10px 0 6px}.step p{font-size:12px;color:#7f8da2}
+    .cta{padding:65px 25px;text-align:center;border:1px solid rgba(124,156,255,.18);border-radius:28px;background:radial-gradient(circle at 50% 0,rgba(79,124,255,.18),transparent 55%),rgba(255,255,255,.025)}
+    .cta h2{font-size:clamp(30px,4vw,48px);letter-spacing:-.05em}.cta p{color:#8d9bb0;margin:12px auto 24px}
+    footer{padding:30px 0 45px;border-top:1px solid var(--line);color:#64748b;font-size:11px}.footer-inner{display:flex;justify-content:space-between;gap:20px}
+    .mobile-menu{display:none}
+    @media(max-width:850px){.navlinks{display:none}.mobile-menu{display:block}.metrics{grid-template-columns:repeat(2,1fr)}.features,.steps{grid-template-columns:1fr}.split,.lower{grid-template-columns:1fr}.dash-body{grid-template-columns:1fr}.sidebar{display:none}}
+    @media(max-width:520px){.nav-actions .btn-ghost{display:none}.hero{padding-top:55px}.metrics{grid-template-columns:1fr 1fr}.dash-content{padding:12px}.table,.activity{overflow:hidden}.hero p{font-size:15px}.footer-inner{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="container nav">
+    <a href="#" class="brand"><span class="brand-mark"><i></i></span>StreamApps</a>
+    <nav class="navlinks">
+      <a href="#features">Features</a><a href="#workflow">How it works</a><a href="#dashboard">Dashboard</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-ghost" href="/login">Login</a>
+      <a class="btn btn-primary" href="/login">Get Started <i data-lucide="arrow-up-right" width="15"></i></a>
+      <button class="btn mobile-menu" aria-label="Menu"><i data-lucide="menu" width="17"></i></button>
+    </div>
+  </header>
 
-</script>
+  <main>
+    <section class="hero">
+      <div class="orb"></div>
+      <div class="container">
+        <div class="eyebrow"><span class="pulse"></span> Live Streaming Automation Platform</div>
+        <h1>Run your live streams.<br><span class="gradient">Without the busywork.</span></h1>
+        <p>Kelola channel, playlist, media, jadwal, thumbnail, dan broadcast dari satu command center yang dibuat untuk streaming automation.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-xl" href="/login">Launch StreamApps <i data-lucide="arrow-right" width="17"></i></a>
+          <a class="btn btn-ghost btn-xl" href="#dashboard"><i data-lucide="play-circle" width="17"></i> Explore Dashboard</a>
+        </div>
+        <div class="trust">Built for creators • agencies • multi-channel operators</div>
+
+        <div class="dashboard-wrap" id="dashboard">
+          <div class="dashboard">
+            <div class="windowbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-title">streamapps / command center</span></div>
+            <div class="dash-body">
+              <aside class="sidebar">
+                <div class="side-logo">STREAMAPPS</div>
+                <div class="menu active"><i data-lucide="layout-dashboard" width="13"></i> Dashboard</div>
+                <div class="menu"><i data-lucide="youtube" width="13"></i> Account Center</div>
+                <div class="menu"><i data-lucide="radio" width="13"></i> New Live</div>
+                <div class="menu"><i data-lucide="activity" width="13"></i> Live Monitor</div>
+                <div class="menu"><i data-lucide="folder-open" width="13"></i> Media Gallery</div>
+                <div class="menu"><i data-lucide="settings" width="13"></i> Settings</div>
+              </aside>
+              <div class="dash-content">
+                <div class="dash-head"><div class="dash-title">Commander Dashboard</div><div class="status">● SYSTEM ONLINE</div></div>
+                <div class="metrics">
+                  <div class="metric"><small>ACTIVE LIVE</small><strong>08</strong><div class="bar"><span style="width:72%"></span></div></div>
+                  <div class="metric"><small>UPCOMING</small><strong>14</strong><div class="bar"><span style="width:55%"></span></div></div>
+                  <div class="metric"><small>CHANNELS</small><strong>12</strong><div class="bar"><span style="width:84%"></span></div></div>
+                  <div class="metric"><small>UPTIME</small><strong>99.9%</strong><div class="bar"><span style="width:96%"></span></div></div>
+                </div>
+                <div class="lower">
+                  <div class="table">
+                    <div class="table-head">PROCESS MANAGER · REAL-TIME ENGINE</div>
+                    <div class="row"><span><span class="live-dot"></span><b>Vintage Romance</b></span><span>VCOPY</span><span>03:42:18</span></div>
+                    <div class="row"><span><span class="live-dot"></span><b>LoFi Station</b></span><span>VCOPY</span><span>11:08:42</span></div>
+                    <div class="row"><span><span class="live-dot"></span><b>Rainy Nights</b></span><span>VCOPY</span><span>07:19:06</span></div>
+                    <div class="row"><span><span class="live-dot"></span><b>Chill Cafe</b></span><span>VCOPY</span><span>21:05:33</span></div>
+                  </div>
+                  <div class="activity">
+                    <h4>SYSTEM ACTIVITY</h4>
+                    <div class="log">18:41:02 <em>OK</em> Broadcast started</div>
+                    <div class="log">18:40:56 <em>OK</em> Playlist loaded</div>
+                    <div class="log">18:40:51 <em>OK</em> Thumbnail selected</div>
+                    <div class="log">18:40:43 <em>OK</em> YouTube connected</div>
+                    <div class="log">18:40:31 <em>OK</em> Scheduler triggered</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-head"><div class="kicker">One command center</div><h2>Semua workflow streaming, di satu tempat.</h2><p>StreamApps dirancang mengikuti workflow engine yang sudah kamu gunakan: channel management, playlist, scheduling, media, monitoring, dan automation.</p></div>
+        <div class="features">
+          <article class="feature"><div class="icon"><i data-lucide="youtube"></i></div><h3>YouTube OAuth & Channels</h3><p>Hubungkan channel melalui OAuth, sinkronkan channel, dan kelola beberapa akun dari Account Center.</p></article>
+          <article class="feature"><div class="icon"><i data-lucide="list-video"></i></div><h3>Playlist Automation</h3><p>Pilih playlist video lokal sekaligus playlist YouTube untuk broadcast yang lebih terstruktur.</p></article>
+          <article class="feature"><div class="icon"><i data-lucide="calendar-clock"></i></div><h3>Smart Scheduling</h3><p>Atur tanggal, jam mulai, durasi, dan recurrence seperti daily, every 2–5 days, hingga weekly.</p></article>
+          <article class="feature"><div class="icon"><i data-lucide="image"></i></div><h3>Thumbnail Rotation</h3><p>Gunakan folder thumbnail dengan mode reuse/consume dan rotasi sequential atau random.</p></article>
+          <article class="feature"><div class="icon"><i data-lucide="file-text"></i></div><h3>Title Bank</h3><p>Simpan banyak judul dan gunakan bank judul untuk variasi metadata saat campaign berjalan.</p></article>
+          <article class="feature"><div class="icon"><i data-lucide="activity"></i></div><h3>Live Monitoring</h3><p>Pantau active streams, scheduled jobs, uptime, engine mode, dan status proses dari dashboard.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="container split">
+        <div>
+          <div class="kicker">Designed for automation</div>
+          <h2 style="font-size:clamp(32px,4vw,50px);letter-spacing:-.05em;margin:10px 0 15px">Dari media library ke live broadcast.</h2>
+          <p style="color:#8997aa">Kurangi pekerjaan repetitif dan pusatkan workflow operasional dalam satu interface yang bersih.</p>
+          <div class="check"><i data-lucide="check-circle-2" width="18"></i><span>Upload / import video dan kelola media dalam satu gallery.</span></div>
+          <div class="check"><i data-lucide="check-circle-2" width="18"></i><span>Atur playlist, title bank, thumbnail, privacy, dan metadata.</span></div>
+          <div class="check"><i data-lucide="check-circle-2" width="18"></i><span>Schedule campaign dan pantau status broadcast secara real-time.</span></div>
+        </div>
+        <div class="mock-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><b style="font-size:12px">NEW LIVE CAMPAIGN</b><span class="status">READY</span></div>
+          <div style="display:grid;gap:9px">
+            <div style="padding:12px;border:1px solid var(--line);border-radius:11px;font-size:10px;color:#8390a4">CHANNEL <strong style="float:right;color:#e2e8f0">Vintage Romance</strong></div>
+            <div style="padding:12px;border:1px solid var(--line);border-radius:11px;font-size:10px;color:#8390a4">PLAYLIST <strong style="float:right;color:#e2e8f0">1950s Collection</strong></div>
+            <div style="padding:12px;border:1px solid var(--line);border-radius:11px;font-size:10px;color:#8390a4">SCHEDULE <strong style="float:right;color:#e2e8f0">Daily · 20:00</strong></div>
+            <div style="padding:12px;border:1px solid var(--line);border-radius:11px;font-size:10px;color:#8390a4">THUMBNAIL <strong style="float:right;color:#34d399">AUTO ROTATE</strong></div>
+            <button class="btn btn-primary" style="justify-content:center;margin-top:5px">Create Campaign <i data-lucide="arrow-right" width="14"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head"><div class="kicker">Simple operating model</div><h2>Setup sekali. Operasikan dengan tenang.</h2></div>
+        <div class="steps">
+          <div class="step"><div class="num">01 / CONNECT</div><h3>Connect Channels</h3><p>Hubungkan akun YouTube dan sinkronkan channel yang ingin dikelola.</p></div>
+          <div class="step"><div class="num">02 / CONFIGURE</div><h3>Build Campaign</h3><p>Pilih video, playlist, title, thumbnail, jadwal, durasi, dan metadata.</p></div>
+          <div class="step"><div class="num">03 / MONITOR</div><h3>Let Engine Run</h3><p>Gunakan Live Monitor dan Dashboard untuk melihat campaign yang berjalan dan terjadwal.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="cta">
+          <div class="kicker">Ready when you are</div>
+          <h2>Take control of your streaming workflow.</h2>
+          <p>Masuk ke StreamApps dan kelola seluruh workflow live streaming dari satu command center.</p>
+          <a class="btn btn-primary btn-xl" href="/login">Open StreamApps <i data-lucide="arrow-up-right" width="17"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 StreamApps. Live Streaming Automation Platform.</div>
+      <div>Built for reliable, repeatable streaming workflows.</div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    document.querySelector('.mobile-menu')?.addEventListener('click',()=>{
+      const n=document.querySelector('.navlinks');
+      if(n){n.style.display=n.style.display==='flex'?'none':'flex';n.style.position='absolute';n.style.top='70px';n.style.right='4%';n.style.flexDirection='column';n.style.padding='14px';n.style.background='#0c1220';n.style.border='1px solid rgba(255,255,255,.1)';n.style.borderRadius='14px';}
+    });
+  </script>
+</body>
+</html>
